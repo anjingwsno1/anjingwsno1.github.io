@@ -63,4 +63,75 @@
         <tag>springcloud</tag>
       </tags>
   </entry>
+  <entry>
+    <title>&#39;常用mysql语句&#39;</title>
+    <url>/2020/08/19/blog-mysql/</url>
+    <content><![CDATA[<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ul>
+<li>mysql</li>
+<li>SQLyog</li>
+<li>配置文件</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"> </span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置3306端口</span></span><br><span class="line"><span class="attr">port</span> = <span class="number">3306</span></span><br><span class="line"><span class="comment"># 设置mysql的安装目录</span></span><br><span class="line"><span class="attr">basedir</span>=C:\\server\\mysql-<span class="number">8.0</span>.<span class="number">21</span>-winx64</span><br><span class="line"><span class="comment"># 允许最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">20</span></span><br><span class="line"><span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line"><span class="attr">default-storage-engine</span>=INNODB</span><br><span class="line"><span class="attr">default_authentication_plugin</span>=mysql_native_password</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用"><a href="#常用" class="headerlink" title="常用"></a>常用</h2><ol>
+<li>查询</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM table WHERE id&#x3D;&#39;1&#39; AND &#96;name&#96;&#x3D;&#39;walson&#39;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>去重</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT DISTINCT department_id FROM employees;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>concat</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT CONCAT(last_name,first_name) AS name FROM employees;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>模糊查询</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#like， _代表单个字符，%代表n个字符</span><br><span class="line">SELECT * FROM table WHERE &#96;name&#96; LIKE &#39;_%wang%_&#39;;</span><br><span class="line"></span><br><span class="line">#between and, 代表&gt;&#x3D;? &lt;&#x3D;?</span><br><span class="line">SELECT * FROM table WHERE &#96;salary&#96; BETWEEN 5000 AND 10000;</span><br><span class="line"></span><br><span class="line">#in, 代表在其中</span><br><span class="line">SELECT * FROM table WHERE &#96;NAME&#96; IN(&#39;walson&#39;, &#39;jack&#39;);</span><br><span class="line"></span><br><span class="line">#is null, 为空</span><br><span class="line">SELECT * FROM table WHERE &#96;NAME&#96; IS NULL;</span><br><span class="line">SELECT * FROM table WHERE &#96;NAME&#96; IS NOT NULL;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>排序查询</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM table WHERE &#96;id&#96; IS NOT NULL ORDER BY salary DESC&#x2F;ASC, age DESC&#x2F;ASC;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>字符函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#upper,lower</span><br><span class="line">SELECT UPPER(&#39;john&#39;);</span><br><span class="line"></span><br><span class="line">#substr&#x2F;substring 索引从1开始</span><br><span class="line">SELECT SUBSTR(&#39;测试一二三四五六七&#39;,5) out_put; #截取从索引后面所有字符</span><br><span class="line">SELECT SUBSTR(&#39;测试一二三四五六七&#39;,1,3) out_put; #截取从索引处指定字符长度的字符</span><br><span class="line"></span><br><span class="line">#instr子字符串在主字符串中的索引位置，无则为0</span><br><span class="line">SELECT INSTR(&#39;测试一二三四五六七&#39;,&#39;测试&#39;) out_put;</span><br><span class="line"></span><br><span class="line">#trim去前后</span><br><span class="line">SELECT TRIM(&#39;a&#39; FROM &#39;aaaaajkjaaakjkjaaaa&#39;) out_put;#result &#x3D; jkjaaakjkj</span><br><span class="line"></span><br><span class="line">#lpad&#x2F;rpad 用指定字符左&#x2F;右填充成指定长度</span><br><span class="line">SELECT LPAD(&#39;BBB&#39;,6,&#39;*&#39;) out_put;#result &#x3D; ***BBB</span><br><span class="line"></span><br><span class="line">#replace 替换</span><br><span class="line">SELECT REPLACE(&#39;AAABBBAABB&#39;,&#39;AA&#39;,&#39;CC&#39;) out_put;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>数学函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#round四舍五入</span><br><span class="line">SELECT ROUND(1.456,2);#1.46</span><br><span class="line"></span><br><span class="line">#ceil&#x2F;floor向上&#x2F;向下取整</span><br><span class="line">SELECT CEIL(1.45);#2</span><br><span class="line"></span><br><span class="line">#truncate 截断</span><br><span class="line">SELECT TRUNCATE(1.45555,2);</span><br><span class="line"></span><br><span class="line">#mod 取余</span><br><span class="line">SELECT MOD(10,3);#1</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>时间函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#now</span><br><span class="line">SELECT NOW();</span><br><span class="line"></span><br><span class="line">#curdate</span><br><span class="line">SELECT CRUDATE();</span><br><span class="line"></span><br><span class="line">#curtime</span><br><span class="line">SELECT CRUTIME();</span><br><span class="line"></span><br><span class="line">SELECT YEAR(NOW());</span><br><span class="line"></span><br><span class="line">#str_to_date</span><br><span class="line">SELECT STR_TO_DATE(&#39;1998-3-2&#39;,&#39;%Y-%c-%d&#39;) AS OUT_PUT;</span><br><span class="line">#date_format</span><br><span class="line">SELECT DATE_FORMAT(NOW(),&#39;%Y年%c月%d日&#39;) AS OUT_PUT;</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\tools\hexo\public\images\time.png" alt="time"></p>
+<ol start="9">
+<li>分组函数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#sum, avg, max, min, count</span><br><span class="line">SELECT SUM(salary) FROM employees WHERE &#96;name&#96; like &#39;%a%&#39; GROUP BY department_id HAVING SUM&gt;5;</span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>连接查询</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM boys b, girls g, location l </span><br><span class="line">WHERE b.department_id&#x3D;g.department_id</span><br><span class="line">AND b.department_id&#x3D;l.department_id;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Database</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
 </search>
